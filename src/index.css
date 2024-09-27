@@ -2,3 +2,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.bgblk{
+  background-image: linear-gradient(to right top, #000000, #12060c, #1a0d18, #1e1223, #1e1830, #181e37, #0f243c, #02293f, #092d3a, #173036, #243233, #2f3433);;
+}
