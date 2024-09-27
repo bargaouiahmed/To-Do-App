@@ -12,8 +12,6 @@ const TodoList = () => {
     image: ''
   });
 
-  const [selectedTodo, setSelectedTodo] = useState(null); // State to store the clicked todo
-
   const todos = useSelector((state) => state.todos);
   const dispatch = useDispatch();
 
@@ -40,12 +38,8 @@ const TodoList = () => {
     dispatch(toggleTodo(id));
   };
 
-  const handleSelectTodo = (todo) => {
-    selectedTodo !== todo ? setSelectedTodo(todo) : setSelectedTodo(null); // Set the clicked todo to be displayed
-  };
-
   return (
-    <div className=' font-serif'> {/* Serif font applied to entire component */}
+    <div className='font-serif'> {/* Serif font applied to entire component */}
       <div className='text-center'>
         <h1 className='text-3xl'>Todo List</h1>
       </div>
@@ -105,58 +99,44 @@ const TodoList = () => {
 
       <ul className='space-y-2 mt-4'>
         {todos.map((todo) => (
-          <li key={todo.id} className='flex items-center space-x-4'>
-            <span
-              style={{ textDecoration: todo.completed ? 'line-through' : 'none', cursor: 'pointer' }}
-              onClick={() => handleSelectTodo(todo)} // Click handler to select the todo
-              className='cursor-pointer'
-            >
-              <strong>{todo.title}</strong> - {todo.text} ({todo.date})
-            </span>
-            {todo.image && <img src={todo.image} alt={todo.title} width="50" height="50" />}
-            <button
-              onClick={() => handleRemoveTodo(todo.id)}
-              className='bg-red-500 text-white px-2 py-1 rounded'
-            >
-              Remove
-            </button>
+          <li key={todo.id} className='mt-6 p-4 border border-gray-300 rounded'>
+            <div>
+              <h2 className='text-xl font-bold mb-2'>{todo.title}</h2>
+              <p><strong>Text:</strong> {todo.text}</p>
+              <p><strong>Date:</strong> {todo.date}</p>
+
+              {/* Display the image for the todo if present */}
+              {todo.image && (
+                <div>
+                  <img src={todo.image} alt={todo.title} className="w-50 h-50" />
+                </div>
+              )}
+
+              {/* Checkbox for toggling completion */}
+              <div className='mt-4'>
+                <input
+                  type="checkbox"
+                  checked={todo.completed}
+                  onChange={() => handleToggleTodo(todo.id)}
+                  id={`completed-${todo.id}`}
+                  className='mr-2'
+                />
+                <label htmlFor={`completed-${todo.id}`} className='cursor-pointer'>
+                  {todo.completed ? 'Completed' : 'Pending'}
+                </label>
+              </div>
+
+              {/* Remove button */}
+              <button
+                onClick={() => handleRemoveTodo(todo.id)}
+                className='bg-red-500 text-white px-2 py-1 rounded mt-2'
+              >
+                Remove
+              </button>
+            </div>
           </li>
         ))}
       </ul>
-
-      {/* Conditional rendering: Show the selected todo's details */}
-      {selectedTodo && (
-        <div className='mt-6 p-4 border border-gray-300 rounded'>
-          <h2 className='text-xl font-bold mb-2'>Selected Todo</h2>
-          <p><strong>Title:</strong> {selectedTodo.title}</p>
-          <p><strong>Text:</strong> {selectedTodo.text}</p>
-          <p><strong>Date:</strong> {selectedTodo.date}</p>
-
-          {/* Display the image for the selected todo */}
-          {selectedTodo.image && (
-            <div>
-              <img src={selectedTodo.image} alt={selectedTodo.title}  className="w-50 h-50" />
-            </div>
-          )}
-
-          {/* Checkbox for toggling completion */}
-          <div className='mt-4'>
-            <input
-              type="checkbox"
-              checked={selectedTodo.completed}
-              onChange={() => {
-                handleToggleTodo(selectedTodo.id);
-                setSelectedTodo({ ...selectedTodo, completed: !selectedTodo.completed });
-              }}
-              id="completed"
-              className='mr-2'
-            />
-            <label htmlFor="completed" className='cursor-pointer'>
-              {selectedTodo.completed ? 'Completed' : 'Pending'}
-            </label>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
