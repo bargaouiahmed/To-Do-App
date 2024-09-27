@@ -40,7 +40,7 @@ const TodoList = () => {
 
   return (
     <div className='bgblk text-gray-100'> {/* Dark background and light text */}
-      <div className='font-serif mx-20 h-screen'>
+      <div className='font-serif mx-20 '>
         <div className='text-center'>
           <h1 className='text-3xl text-white'>Todo List</h1> {/* White heading for contrast */}
         </div>
